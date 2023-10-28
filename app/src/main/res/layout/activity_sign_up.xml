@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SignUpActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
 
 
     <RelativeLayout
@@ -41,6 +47,7 @@
         android:padding="10dp">
 
         <EditText
+            android:id="@+id/etNameSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -53,6 +60,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/etMailSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -65,6 +73,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/etPhoneSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -77,6 +86,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/etCinSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -89,6 +99,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/etPasswordSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -102,7 +113,7 @@
     </LinearLayout>
     
     <Button
-        android:id="@+id/GoToSignIn"
+        android:id="@+id/btnSignUp"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
@@ -115,6 +126,7 @@
 
 
     <TextView
+        android:id="@+id/goToSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You Have An Account !"
@@ -124,4 +136,6 @@
         android:textColor="@color/colorapp"
         android:padding="10dp"/>
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
