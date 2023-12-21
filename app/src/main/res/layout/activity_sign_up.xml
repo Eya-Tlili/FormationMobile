@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SignUpActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,32 +15,35 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40sp"
-            android:text="Welcome \n Please Sign Up Here"
+            android:layout_margin="45dp"
+            android:text="Welcome \n please sign up here "
             android:textColor="@color/colorapp"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            />
 
         <ImageView
             android:layout_width="120dp"
             android:layout_height="100dp"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_margin="20dp"
             android:src="@drawable/logo" />
+
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/shape"
         android:orientation="vertical"
         android:padding="10dp">
 
         <EditText
-            android:id="@+id/etNameSignUp"
+            android:id="@+id/nameSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -60,20 +56,20 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etMailSignUp"
+            android:id="@+id/emailSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:drawableEnd="@drawable/ic_email"
             android:drawableTint="@color/colorapp"
-            android:hint="E-mail"
+            android:hint="Email"
             android:inputType="textEmailAddress"
             android:padding="15dp"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etPhoneSignUp"
+            android:id="@+id/numberSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -86,20 +82,20 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etCinSignUp"
+            android:id="@+id/cinSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:drawableEnd="@drawable/ic_cin"
             android:drawableTint="@color/colorapp"
-            android:hint="Cin"
+            android:hint="Cin "
             android:inputType="number"
             android:padding="15dp"
             android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etPasswordSignUp"
+            android:id="@+id/passwordSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -110,32 +106,31 @@
             android:padding="15dp"
             android:textSize="15sp"
             android:textStyle="bold" />
-    </LinearLayout>
-    
-    <Button
-        android:id="@+id/btnSignUp"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_gravity="center"
-        android:text="Sign Up"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:cornerRadius="20sp"
-        android:backgroundTint="@color/colorapp"/>
+
+        <Button
+            android:id="@+id/btnSignUp"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/colorapp"
+            android:text="Sign Up"
+            app:cornerRadius="20sp" />
+        <TextView
+            android:id="@+id/goToSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You have an account !"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/colorapp"
+            android:padding="10dp" />
 
 
-    <TextView
-        android:id="@+id/goToSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You Have An Account !"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textColor="@color/colorapp"
-        android:padding="10dp"/>
 
     </LinearLayout>
 
-</ScrollView>
+
+
+</LinearLayout>

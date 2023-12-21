@@ -1,11 +1,9 @@
 package com.example.myfirstapplication;
 
-import static androidx.constraintlayout.motion.widget.TransitionBuilder.validate;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,109 +17,117 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.example.myfirstapplication.Model.User;
 
 public class SignUpActivity extends AppCompatActivity {
-private TextView goToSignIn;
-    private EditText etName,etPassword,etMail,etPhone,etCin;
+    private TextView goToSignIn;
+    private EditText fullName, email, phone, cin, password;
     private Button btnSignUp;
-    private String etNameS,etPasswordS,etMailS,etPhoneS,etCinS;
-    private static final String EMAIL_REGEX =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private String fullNameSt, emailSt, phoneSt, cinSt, passwordSt;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        etName=findViewById(R.id.etNameSignUp);
-        etPassword=findViewById(R.id.etPasswordSignUp);
-        etMail=findViewById(R.id.etMailSignUp);
-        etPhone=findViewById(R.id.etPhoneSignUp);
-        etCin=findViewById(R.id.etCinSignUp);
-        btnSignUp=findViewById(R.id.btnSignUp);
-        goToSignIn=findViewById(R.id.goToSignIn);
+        goToSignIn = findViewById(R.id.goToSignIn);
+        fullName = findViewById(R.id.nameSignUp);
+        email = findViewById(R.id.emailSignUp);
+        phone = findViewById(R.id.numberSignUp);
+        cin = findViewById(R.id.cinSignUp);
+        password = findViewById(R.id.passwordSignUp);
+        btnSignUp = findViewById(R.id.btnSignUp);
 
-        //firebase
-        firebaseAuth=FirebaseAuth.getInstance();
-        progressDialog=new ProgressDialog(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
 
-        btnSignUp.setOnClickListener(view -> {
-            progressDialog.setMessage("Please wait...");
-            progressDialog.show();
+
+        goToSignIn.setOnClickListener(v -> {
+            startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+        });
+
+        btnSignUp.setOnClickListener((v -> {
             if (validate()) {
-                String email_user=etMail.getText().toString().trim();
-                String password_user=etPassword.getText().toString().trim();
-                
-                firebaseAuth.createUserWithEmailAndPassword(email_user,password_user).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                String user_email = email.getText().toString().trim();
+                String user_password = password.getText().toString().trim();
+                progressDialog.setMessage("Please wait ...!");
+                progressDialog.show();
+
+                firebaseAuth.createUserWithEmailAndPassword(user_email,user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             sendEmailVerification();
                         }else {
-                            Toast.makeText(SignUpActivity.this, "registration failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Register failed !", Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
                     }
                 });
             }
-        });
-        goToSignIn.setOnClickListener(view -> {startActivity(new Intent(SignUpActivity.this, SignInActivity.class));});
+        }));
+
+    }
+
+    private boolean validate() {
+        boolean result = false;
+        fullNameSt = fullName.getText().toString();
+        emailSt = email.getText().toString();
+        phoneSt = phone.getText().toString();
+        cinSt = cin.getText().toString();
+        passwordSt = password.getText().toString();
+
+        if (fullNameSt.isEmpty() || fullNameSt.length() <=7) {
+            fullName.setError("FullName is invalid !");
+        } else if (emailSt.isEmpty() || !emailSt.contains("@") || !emailSt.contains(".")){
+            email.setError("Email is invalid !");
+        } else if (phoneSt.isEmpty() || phoneSt.length() !=8){
+            phone.setError("Phone is invalid !");
+        } else if (cinSt.isEmpty() || cinSt.length() !=8){
+            phone.setError("Cin is invalid");
+        } else if (passwordSt.isEmpty() || passwordSt.length()<8){
+            password.setError("Password is invalid !");
+        }
+        else{
+            result = true;
+        }
+
+        return result;
+
     }
 
     private void sendEmailVerification() {
-        FirebaseUser user=firebaseAuth.getCurrentUser();
-        if(user != null){
-            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null){
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
-                        progressDialog.dismiss();
-                        Toast.makeText(SignUpActivity.this, "registration done ! Please check your email", Toast.LENGTH_SHORT).show();
+                        sendUserData();
+                        Toast.makeText(SignUpActivity.this, "Registration done! Please check your email address !", Toast.LENGTH_SHORT).show();
                         firebaseAuth.signOut();
+                        finish();
+                        progressDialog.dismiss();
                         startActivity(new Intent(SignUpActivity.this,SignInActivity.class));
                     }else {
-                        Toast.makeText(SignUpActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(SignUpActivity.this, "Registration failed !", Toast.LENGTH_SHORT).show();
                     }
-                        
                 }
+
+
             });
         }
     }
 
-    private boolean validate() {
-         boolean result=false;
-
-         etNameS=etName.getText().toString();
-         etPasswordS=etPassword.getText().toString();
-         etCinS=etCin.getText().toString();
-         etMailS=etMail.getText().toString();
-         etPhoneS=etPhone.getText().toString();
-
-         if (etNameS.isEmpty() || etNameS.length()<7){
-             etName.setError("Name is invalid !");
-         } else if (!isValidEmail(etMailS) ) {
-             etMail.setError("EMail is invalid");
-
-         } else if (etPhoneS.isEmpty() ||etPhoneS.length()!=8) {
-             etPhone.setError("Phone is invalid");
-         } else if (etCinS.isEmpty()|| etCinS.length()!=8) {
-             etCin.setError("cin is invalid");
-         } else if (etPasswordS.isEmpty()|| etPasswordS.length()<5) {
-             etPassword.setError("password is invalid");
-         } else {
-             result=true;
-         }
-
-         return result;
-    }
-    public static boolean isValidEmail(String email) {
-        Pattern pattern = Pattern.compile(EMAIL_REGEX);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+    private void sendUserData() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference("Users");
+        User user = new User(fullNameSt,emailSt,phoneSt,cinSt,passwordSt);
+        myRef.child(firebaseAuth.getUid().toString()).setValue(user);
     }
 }
